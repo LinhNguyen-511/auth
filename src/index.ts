@@ -1,17 +1,29 @@
-// import express, dotenv, jwt
-const express = require('express')
-const dotenv = require('dotenv')
-const jwt = require('jsonwebtoken')
+const express = require("express");
+const dotenv = require("dotenv");
+const jwt = require("jsonwebtoken");
+const cors = require("cors");
 
-// create express app
-const app = express()
+dotenv.config();
 
-dotenv.config()
+// EXPRESS
+const app = express();
 
-// listen to port 
-const port = process.env.PORT 
-app.listen(port, () => {console.log("halo")})
+// CORS:
+const corsOptions = {
+  origin: "http://localhost:3000",
+};
+app.use(cors(corsOptions));
 
-app.get('/', (req, res) => {
-    res.send('Hello bay!')
-})
+// MIDDLEWAREs for parsing incoming request
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// PORT:
+const port = process.env.PORT;
+app.listen(port, () => {
+  console.log("halo");
+});
+
+app.get("/", (req, res) => {
+  res.send("Hello bay!");
+});
