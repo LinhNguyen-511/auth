@@ -1,10 +1,13 @@
-import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 
-const Role = new mongoose.Schema({
+interface IRole {
+  name: typeof import("./type/RoleEnum");
+}
+
+const Role = new Schema<IRole>({
   name: {
     type: String,
-    enum: ["general", "admin"],
   },
 });
 
-export default mongoose.model("Role", Role);
+export default model<IRole>("Role", Role);

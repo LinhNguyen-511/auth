@@ -1,28 +1,45 @@
-const express = require("express");
-const dotenv = require("dotenv");
-const jwt = require("jsonwebtoken");
-const cors = require("cors");
-const { MongoClient } = require("mongodb");
+import express from "express";
+import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
+import cors from "cors";
+import { Mongoose } from "mongoose";
+import { database } from "../models";
+import RoleEnum from "../models/type/RoleEnum";
 
 dotenv.config();
 
 // EXPRESS
 const app = express();
-// MONGODB CLIENT
-const client = new MongoClient(process.env.MONGO_URI);
+// MONGOOSE CONNECTION
+const mongoose = new Mongoose();
 
-const connectToDatebase = async () => {
-  try {
-    await client.connect();
-    console.log("Connected to database");
-  } catch (err) {
-    console.log(err);
-  } finally {
-    await client.close();
-  }
-};
+database.mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("Successfully connect to MongoDB.");
+    initializeRoleCollection();
+  })
+  .catch((err) => {
+    console.error("Connection error", err);
+    process.exit();
+  });
 
-connectToDatebase();
+function initializeRoleCollection() {
+  database.Role.estimatedDocumentCount((error, count) => {
+    if (!error && count === 0) {
+      for (const role in RoleEnum) {
+        new database.Role({
+          name: role,
+        }).save((error) => {
+          if (error) {
+            console.log("error", error);
+          }
+          console.log("added '" + role + "' to roles collection");
+        });
+      }
+    }
+  });
+}
 
 // CORS:
 const corsOptions = {

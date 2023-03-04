@@ -1,6 +1,13 @@
-import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 
-const User = new mongoose.Schema({
+interface IUser {
+  userName: string;
+  email: string;
+  password: string;
+  roles: typeof import("./type/RoleEnum");
+}
+
+const User = new Schema<IUser>({
   userName: String,
   email: String,
   password: String,
@@ -9,10 +16,10 @@ const User = new mongoose.Schema({
   // Ref helps us to get rest of the role's information (using populate()).
   roles: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Role",
     },
   ],
 });
 
-export default mongoose.model("User", User);
+export default model<IUser>("User", User);
