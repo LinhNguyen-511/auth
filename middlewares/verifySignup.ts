@@ -22,7 +22,7 @@ function verifyCredentials(
   });
 }
 
-function verifyRole(
+function verifyRoles(
   request: Request,
   response: Response,
   next: NextFunction
@@ -37,4 +37,4 @@ function verifyRole(
   }
 }
 
-export { verifyCredentials, verifyRole };
+export { verifyCredentials, verifyRoles };
