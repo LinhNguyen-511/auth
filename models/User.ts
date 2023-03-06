@@ -4,10 +4,10 @@ interface IUser {
   userName: string;
   email: string;
   password: string;
-  roles: typeof import("./type/RoleEnum");
+  roles: Array<Schema.Types.ObjectId>;
 }
 
-const User = new Schema<IUser>({
+const UserSchema = new Schema<IUser>({
   userName: String,
   email: String,
   password: String,
@@ -22,4 +22,6 @@ const User = new Schema<IUser>({
   ],
 });
 
-export default model<IUser>("User", User);
+const User = model<IUser>("User", UserSchema);
+
+export { User, IUser };

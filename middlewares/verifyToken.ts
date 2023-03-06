@@ -1,24 +1,24 @@
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 import { secret } from "../auth.config";
-import User from "../models/User";
+import { User } from "../models/User";
 import RoleEnum from "../models/type/RoleEnum";
 
 function verifyToken(
   request: Request,
   response: Response,
   next: NextFunction
-): Response | void {
+): void {
   const tokenHeader = "x-access-token";
   const token = request.headers[tokenHeader];
 
   if (!token) {
-    return response.status(403).json({ message: "No token provided" });
+    response.status(403).json({ message: "No token provided" });
   }
 
   jwt.verify(token as string, secret, (error, decoded) => {
     if (error) {
-      return response.status(401).json({ message: "Unauthorized" });
+      response.status(401).json({ message: "Unauthorized" });
     }
 
     request.body.userId = decoded.id;
@@ -30,22 +30,22 @@ function verifyAdmin(
   request: Request,
   response: Response,
   next: NextFunction
-): Response | void {
+): void {
   const { userId } = request.body;
 
   User.findOne({ _id: userId }, (error, user) => {
     if (error) {
-      return response.status(500).json({ message: error });
+      response.status(500).json({ message: error });
     }
 
     if (!user) {
-      return response.status(404).json({ message: "User not found" });
+      response.status(404).json({ message: "User not found" });
     }
 
     const isUserAdmin = user.roles.includes(RoleEnum.ADMIN);
 
     if (!isUserAdmin) {
-      return response.status(403).json({ message: "Require Admin Role" });
+      response.status(403).json({ message: "Require Admin Role" });
     }
 
     next();
