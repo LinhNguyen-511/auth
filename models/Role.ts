@@ -4,10 +4,12 @@ interface IRole {
   name: typeof import("./type/RoleEnum");
 }
 
-const Role = new Schema<IRole>({
+const RoleSchema = new Schema<IRole>({
   name: {
     type: String,
   },
 });
 
-export default model<IRole>("Role", Role);
+const Role = model<IRole>("Role", RoleSchema);
+
+export { Role, IRole };

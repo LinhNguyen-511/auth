@@ -1,15 +1,15 @@
 import mongoose from "mongoose";
 import User from "./User";
-import Role from "./Role";
+import RoleSchema from "./Role";
 
 interface Database {
   mongoose: typeof mongoose;
   User: typeof User;
-  Role: typeof Role;
+  Role: typeof RoleSchema;
 }
 
 export const database: Database = {
   mongoose,
   User,
-  Role,
+  Role: RoleSchema,
 };
