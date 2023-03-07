@@ -13,6 +13,7 @@ dotenv.config();
 const app = express();
 // MONGOOSE CONNECTION
 const mongoose = new Mongoose();
+mongoose.set("strictQuery", true);
 
 database.mongoose
   .connect(process.env.MONGO_URI)
@@ -55,7 +56,7 @@ app.use(express.urlencoded({ extended: true }));
 // PORT:
 const port = process.env.PORT;
 app.listen(port, () => {
-  console.log("halo");
+  console.log("hello from port " + port);
 });
 
 // ROUTES:

@@ -64,8 +64,8 @@ function signin(request: Request, response: Response) {
       }
 
       const isPasswordValid = bcrypt.compareSync(
-        user.password,
-        request.body.password
+        request.body.password,
+        user.password
       );
 
       if (!isPasswordValid) {
