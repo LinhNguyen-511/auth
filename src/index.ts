@@ -5,6 +5,7 @@ import cors from "cors";
 import { Mongoose } from "mongoose";
 import { database } from "../models";
 import RoleEnum from "../models/type/RoleEnum";
+import routeAuthentication from "../routes/auth.routes";
 
 dotenv.config();
 
@@ -57,6 +58,5 @@ app.listen(port, () => {
   console.log("halo");
 });
 
-app.get("/", (req, res) => {
-  res.send("Hello bay!");
-});
+// ROUTES:
+routeAuthentication(app);

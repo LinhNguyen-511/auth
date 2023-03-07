@@ -91,3 +91,5 @@ function signin(request: Request, response: Response) {
       });
     });
 }
+
+export { signin, signup };
